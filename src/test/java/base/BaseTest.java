@@ -44,7 +44,8 @@ public class BaseTest {
 
         driver = new ChromeDriver(options);
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        // Use only explicit waits throughout the framework
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
 
         driver.get("https://www.saucedemo.com/");
     }
