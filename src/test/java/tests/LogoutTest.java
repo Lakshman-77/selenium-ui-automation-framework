@@ -24,28 +24,9 @@ public class LogoutTest extends BaseTest {
         loginPage.login("standard_user", "secret_sauce");
     }
 
-    @Test(description = "Logout should redirect back to login page")
-    public void testLogoutRedirectsToLogin() {
-        logoutPage.logout();
-
-        Assert.assertTrue(
-                loginPage.isLoginFormVisible(),
-                "Login form should be visible after logout."
-        );
-    }
-
-    @Test(description = "After logout, login form should be visible again")
-    public void testLoginFormVisibleAfterLogout() {
-        logoutPage.logout();
-
-        Assert.assertTrue(
-                loginPage.isLoginFormVisible(),
-                "Login form should appear after logout."
-        );
-    }
-
-    @Test(description = "Session should be cleared — back button should not re-enter app")
+    @Test(description = "Browser back should not restore authenticated session after logout")
     public void testBackButtonAfterLogout() {
+
         logoutPage.logout();
 
         driver.navigate().back();

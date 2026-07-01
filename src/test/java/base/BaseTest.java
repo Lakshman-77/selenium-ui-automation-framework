@@ -29,7 +29,18 @@ public class BaseTest {
 
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-notifications");
-        options.addArguments("--start-maximized");
+
+        // Detect GitHub Actions/Linux
+        boolean isGitHub = System.getenv("GITHUB_ACTIONS") != null;
+
+        if (isGitHub) {
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--window-size=1920,1080");
+        } else {
+            options.addArguments("--start-maximized");
+        }
 
         driver = new ChromeDriver(options);
 

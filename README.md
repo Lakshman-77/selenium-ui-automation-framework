@@ -77,36 +77,36 @@ selenium-ui-automation-framework/
 
 ---
 
-## Test Coverage (26 Test Cases)
+## Test Coverage (24 Test Cases)
 
-| Module | Coverage |
-|---------|----------|
-| Login | Valid login, invalid password, empty username, empty password, locked-out user |
-| Inventory | Verify page title, verify product count, add single item, add multiple items, sort by price (Low–High), sort by price (High–Low), sort by name (A–Z), sort by name (Z–A) |
-| Cart | Empty cart validation, item appears in cart, remove single item, remove all items, continue shopping |
-| Checkout | Successful checkout, missing first name, missing last name, missing postal code, order summary validation |
-| Logout | Logout redirect, login page visibility after logout, session invalidation using browser back button |
+| Module | Test Scenarios |
+|---------|----------------|
+| **Login** | Valid login, invalid password, empty username, empty password, locked-out user |
+| **Inventory** | Verify page title, verify product count, add single item, add multiple items, sort by price (Low–High), sort by price (High–Low), sort by name (A–Z), sort by name (Z–A) |
+| **Cart** | Empty cart validation, item appears in cart, remove single item, remove all items, continue shopping |
+| **Checkout** | Successful checkout, missing first name, missing last name, missing postal code, verify order summary |
+| **Logout** | Verify authenticated session is not restored using the browser Back button after logout |
 
 ---
 
-## Design Decisions
+## Framework Design
 
 ### Page Object Model (POM)
 
-Each page encapsulates its own locators and user interactions, making the framework easier to maintain and reducing duplication across test classes.
+Each application page is represented by a dedicated Page Object class that encapsulates element locators and user interactions. This keeps test classes clean and improves maintainability.
 
-### Reusable Base Classes
+### Base Classes
 
-- **BasePage** centralizes common Selenium operations such as clicking, typing, waiting, and locating elements.
-- **BaseTest** manages browser initialization and cleanup for every test.
+- **BasePage** provides reusable Selenium utilities such as click, type, waits, text retrieval, and element visibility checks.
+- **BaseTest** manages browser setup, teardown, and Chrome configuration for both local execution and GitHub Actions.
 
 ### Explicit Waits
 
-The framework uses explicit waits to improve test stability and avoid flaky execution caused by dynamic page loading.
+Explicit waits are used throughout the framework to synchronize with dynamic UI elements and reduce flaky test execution.
 
 ### Reporting
 
-ExtentReports generates a detailed HTML report after every execution, providing clear insights into test results.
+ExtentReports generates an interactive HTML report after every execution, making it easier to analyze passed and failed test cases.
 
 ---
 
@@ -114,11 +114,11 @@ ExtentReports generates a detailed HTML report after every execution, providing 
 
 ### Prerequisites
 
-- Java 17+
-- Maven 3.9+
+- Java 17 or later
+- Maven 3.9 or later
 - Google Chrome
 
-### Clone Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/Lakshman-77/selenium-ui-automation-framework.git
@@ -126,7 +126,7 @@ git clone https://github.com/Lakshman-77/selenium-ui-automation-framework.git
 cd selenium-ui-automation-framework
 ```
 
-### Execute Tests
+### Execute All Tests
 
 ```bash
 mvn clean test
@@ -136,7 +136,7 @@ mvn clean test
 
 ## Test Report
 
-After execution, the Extent Report is generated under:
+After execution, the Extent Report is generated at:
 
 ```text
 test-output/extent-report.html
@@ -146,7 +146,7 @@ test-output/extent-report.html
 
 ## Continuous Integration
 
-The project includes a GitHub Actions workflow that automatically executes the complete Selenium UI test suite on every push to the repository.
+GitHub Actions automatically builds the project and executes the complete Selenium UI test suite on every push and pull request, helping ensure the framework remains stable.
 
 ---
 
