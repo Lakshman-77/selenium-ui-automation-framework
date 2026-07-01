@@ -1,6 +1,7 @@
 package pages;
  
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,11 +26,19 @@ public class CartPage extends BasePage {
     }
  
     public boolean isEmpty() {
-        return driver.findElements(cartItems).isEmpty();
+        try {
+            // wait for all cart items to disappear before asserting
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(cartItems));
+            return true;
+        } catch (TimeoutException e) {
+            return driver.findElements(cartItems).isEmpty();
+        }
     }
  
     public void removeItem(int index) {
-        List<WebElement> buttons = findAll(removeButtons);
+        List<WebElement> buttons = wait.until(
+            ExpectedConditions.visibilityOfAllElementsLocatedBy(removeButtons)
+        );
         buttons.get(index).click();
     }
  

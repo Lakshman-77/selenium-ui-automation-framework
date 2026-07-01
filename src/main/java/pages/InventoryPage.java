@@ -14,7 +14,6 @@ public class InventoryPage extends BasePage {
     private final By pageTitle = By.cssSelector(".title");
     private final By inventoryItems = By.cssSelector(".inventory_item");
  
-    // Fixed locator
     private final By sortDropdown =
             By.cssSelector("[data-test='product-sort-container']");
  
@@ -49,18 +48,26 @@ public class InventoryPage extends BasePage {
         dropdown.selectByVisibleText(visibleText);
     }
  
-    public void addToCart(int index) {
-        List<WebElement> buttons = wait.until(
-            ExpectedConditions.visibilityOfAllElementsLocatedBy(addToCartBtns)
+    public void addToCart(int productIndex) {
+        // scope to the nth product container so index doesn't shift after each click
+        List<WebElement> items = wait.until(
+            ExpectedConditions.visibilityOfAllElementsLocatedBy(inventoryItems)
         );
-        buttons.get(index).click();
+        WebElement addBtn = items.get(productIndex)
+                .findElement(By.cssSelector("[data-test^='add-to-cart']"));
+ 
+        int countBefore = getCartCount();
+        wait.until(ExpectedConditions.elementToBeClickable(addBtn)).click();
+ 
+        // don't return until the badge confirms the item was registered
+        final int expected = countBefore + 1;
+        wait.until(d -> getCartCount() == expected);
     }
  
     public int getCartCount() {
-        if (!isVisible(cartBadge)) {
-            return 0;
-        }
-        return Integer.parseInt(getText(cartBadge));
+        List<WebElement> badges = driver.findElements(cartBadge);
+        if (badges.isEmpty() || !badges.get(0).isDisplayed()) return 0;
+        return Integer.parseInt(badges.get(0).getText());
     }
  
     public void openCart() {
