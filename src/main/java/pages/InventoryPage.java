@@ -44,9 +44,15 @@ public class InventoryPage extends BasePage {
     }
 
     public void addToCart(int index) {
-        List<WebElement> buttons = findAll(addToCartBtns);
-        buttons.get(index).click();
-    }
+    wait.until(driver -> {
+        List<WebElement> buttons = driver.findElements(addToCartBtns);
+        if (buttons.size() > index) {
+            buttons.get(index).click();
+            return true;
+        }
+        return false;
+    });
+}
 
     public int getCartCount() {
         if (!isVisible(cartBadge)) {
