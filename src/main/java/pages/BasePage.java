@@ -21,36 +21,38 @@ public class BasePage {
     }
 
     protected WebElement waitForElement(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    protected WebElement waitForClickable(By locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     protected void click(By locator) {
-        waitForElement(locator).click();
+        waitForClickable(locator).click();
     }
 
     protected void type(By locator, String text) {
         WebElement element = waitForElement(locator);
+        wait.until(ExpectedConditions.visibilityOf(element));
         element.clear();
         element.sendKeys(text);
     }
 
     protected String getText(By locator) {
-        return waitForElement(locator).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
     }
 
     protected boolean isVisible(By locator) {
         try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
+            return wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(locator)
+            ).isDisplayed();
         } catch (TimeoutException e) {
             return false;
         }
     }
 
-    /**
-     * Returns all matching elements immediately.
-     * Does NOT wait because many tests intentionally
-     * verify that zero elements are present.
-     */
     protected List<WebElement> findAll(By locator) {
         return driver.findElements(locator);
     }

@@ -49,14 +49,11 @@ public class InventoryPage extends BasePage {
     }
  
     public void addToCart(int productIndex) {
-        List<WebElement> items = wait.until(
-            ExpectedConditions.visibilityOfAllElementsLocatedBy(inventoryItems)
+        List<WebElement> buttons = wait.until(
+            ExpectedConditions.visibilityOfAllElementsLocatedBy(addToCartBtns)
         );
 
-        WebElement addBtn = items.get(productIndex)
-            .findElement(addToCartBtns);
-
-        wait.until(ExpectedConditions.elementToBeClickable(addBtn)).click();
+        buttons.get(productIndex).click();
     }
  
     public int getCartCount() {
