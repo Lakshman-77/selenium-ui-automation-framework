@@ -49,19 +49,14 @@ public class InventoryPage extends BasePage {
     }
  
     public void addToCart(int productIndex) {
-        // scope to the nth product container so index doesn't shift after each click
         List<WebElement> items = wait.until(
             ExpectedConditions.visibilityOfAllElementsLocatedBy(inventoryItems)
         );
+
         WebElement addBtn = items.get(productIndex)
-                .findElement(By.cssSelector("[data-test^='add-to-cart']"));
- 
-        int countBefore = getCartCount();
+            .findElement(addToCartBtns);
+
         wait.until(ExpectedConditions.elementToBeClickable(addBtn)).click();
- 
-        // don't return until the badge confirms the item was registered
-        final int expected = countBefore + 1;
-        wait.until(d -> getCartCount() == expected);
     }
  
     public int getCartCount() {
