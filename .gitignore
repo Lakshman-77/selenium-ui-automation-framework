@@ -1,0 +1,39 @@
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Test reports
+test-output/
+surefire-reports/
+
+# Screenshots (if you add screenshot-on-failure later)
+screenshots/
+
+# Selenium Manager
+.selenium/
+
+# Environment files
+.env
+
+# Temporary files
+*.tmp
